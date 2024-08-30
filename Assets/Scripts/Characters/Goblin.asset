@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9f57ab200e9bce45a03e328479e6104, type: 3}
+  m_Name: Goblin
+  m_EditorClassIdentifier: 
+  CharaSprite: {fileID: 21300000, guid: 3fd0871d4f8a55a4a9449c37865c4748, type: 3}
+  Name: Goblin
+  Level: 2
+  Exp: 0
+  ExpNextLevel: 26
+  LifeStat: 8
+  AttackStat: 1
+  DefenseStat: 2
+  SpeedStat: 1
+  AttackDefenseRatio: 7
+  ActionFleeRatio: 3
+  CharaAbilities:
+  - {fileID: 11400000, guid: 1ddfc29ed5e0c8b46b3877e17886e45b, type: 2}
+  - {fileID: 11400000, guid: 63eda6922b9946d4c99e9b8917b2c375, type: 2}
