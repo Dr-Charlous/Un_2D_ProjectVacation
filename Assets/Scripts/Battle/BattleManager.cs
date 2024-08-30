@@ -204,15 +204,28 @@ public class BattleManager : MonoBehaviour
         _combatText.text = $@"{_charactersInOrder[0].name} use {attack.AttackName}";
         int lifeLose = Attack(_charactersInOrder[0], _charactersInOrder[1], attack);
 
+        if (lifeLose <= 0)
+        {
+            _playerAttackText.color = Color.green;
+            _ennemyAttackText.color = Color.green;
+            _playerAttackText.text = "+";
+            _ennemyAttackText.text = "+";
+        }
+        else
+        {
+            _playerAttackText.color = Color.red;
+            _ennemyAttackText.color = Color.red;
+        }
+
         if (_charactersInOrder[0].IsPlayable)
         {
             _playerAttackDisplay.SetActive(true);
-            _playerAttackText.text = $"-{lifeLose}";
+            _playerAttackText.text += $"{-lifeLose}";
         }
         else
         {
             _ennemyAttackDisplay.SetActive(true);
-            _ennemyAttackText.text = $"-{lifeLose}";
+            _ennemyAttackText.text += $"{-lifeLose}";
         }
 
         yield return new WaitForSeconds(_timerBetweenActions / 4 * 3);
@@ -244,7 +257,7 @@ public class BattleManager : MonoBehaviour
 
     public IEnumerator Flee()
     {
-        Flee(_charactersInOrder[0]);
+        Flee(_charactersInOrder[0], _charactersInOrder[1]);
 
         yield return new WaitForSeconds(_timerBetweenActions);
 
@@ -260,7 +273,9 @@ public class BattleManager : MonoBehaviour
         if (attack.TargetAttack == ScriptableAttack.Target.Self)
         {
             charaDefense = charaAttack;
-            charaDefense.LifePoints += (int)(charaDefense.CharacterStats.LifeStat / attack.AttackDamage);
+            charaDefense.LifePoints += attack.AttackDamage + charaDefense.CharacterStats.DefenseStat;
+            lifePointsLose = attack.AttackDamage + charaDefense.CharacterStats.DefenseStat;
+            lifePointsLose *= -1;
         }
         else
         {
@@ -277,6 +292,14 @@ public class BattleManager : MonoBehaviour
             charaDefense.LifePoints -= lifePointsLose;
         }
 
+        Defeat(charaAttack, charaDefense);
+
+        charaDefense.ActualiseLifeDisplay();
+        return lifePointsLose;
+    }
+
+    void Defeat(Character charaAttack, Character charaDefense)
+    {
         if (charaDefense.LifePoints > charaDefense.CharacterStats.LifeStat)
             charaDefense.LifePoints = charaDefense.CharacterStats.LifeStat;
 
@@ -286,9 +309,6 @@ public class BattleManager : MonoBehaviour
             Exp(charaAttack, charaDefense);
             OutOfBattle(charaDefense);
         }
-
-        charaDefense.ActualiseLifeDisplay();
-        return lifePointsLose;
     }
 
     void Defense(Character charaDefense)
@@ -296,13 +316,14 @@ public class BattleManager : MonoBehaviour
         charaDefense.isDefending = true;
     }
 
-    void Flee(Character charaDefense)
+    void Flee(Character charaAttack, Character charaDefense)
     {
         int number = Random.Range(0, 10);
         if (number == 0)
         {
             _combatText.text = $@"{_charactersInOrder[0].name} fall during flee...";
             charaDefense.LifePoints--;
+            Defeat(charaAttack, charaDefense);
             charaDefense.ActualiseLifeDisplay();
         }
         else

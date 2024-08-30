@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CharaSprite: {fileID: 21300000, guid: 5bf3ef119c17274488513399031a1527, type: 3}
   Name: Stone golem
-  Level: 10
+  Level: 15
   Exp: 0
   ExpNextLevel: 130
   LifeStat: 12

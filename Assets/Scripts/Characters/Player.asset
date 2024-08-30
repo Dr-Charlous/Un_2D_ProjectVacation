@@ -14,17 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CharaSprite: {fileID: 21300000, guid: 1cb6a865e9d5c804dbc995be44ba359e, type: 3}
   Name: Player
-  Level: 4
-  Exp: 9
-  ExpNextLevel: 52
+  Level: 5
+  Exp: 41
+  ExpNextLevel: 65
   LifeStat: 5
-  AttackStat: 1
-  DefenseStat: 8
+  AttackStat: 2
+  DefenseStat: 10
   SpeedStat: 1
   AttackDefenseRatio: 0
   ActionFleeRatio: 0
   CharaAbilities:
   - {fileID: 11400000, guid: 45fa505fde580ca459677d53d9331e8a, type: 2}
-  - {fileID: 11400000, guid: 63eda6922b9946d4c99e9b8917b2c375, type: 2}
+  - {fileID: 11400000, guid: 1ddfc29ed5e0c8b46b3877e17886e45b, type: 2}
   - {fileID: 11400000, guid: d1b02a74b9446ab43a0896d599e24a24, type: 2}
-  - {fileID: 11400000, guid: a5e75b0baf3ce6a4ab0d199873ed225e, type: 2}
+  - {fileID: 11400000, guid: 63eda6922b9946d4c99e9b8917b2c375, type: 2}

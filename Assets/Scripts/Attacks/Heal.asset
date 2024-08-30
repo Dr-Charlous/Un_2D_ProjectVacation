@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetAttack: 0
   AttackName: Heal
-  AttackText: +1/8 Life
+  AttackText: +3 life points (defense)
   AttackRank: 1
-  AttackDamage: 8
+  AttackDamage: 3

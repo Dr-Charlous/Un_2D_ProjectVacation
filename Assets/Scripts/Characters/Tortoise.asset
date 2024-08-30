@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CharaSprite: {fileID: 21300000, guid: 3889dc49bac8a3d4390047601adabb84, type: 3}
   Name: Land Tortoise
-  Level: 6
+  Level: 8
   Exp: 0
   ExpNextLevel: 78
   LifeStat: 28
