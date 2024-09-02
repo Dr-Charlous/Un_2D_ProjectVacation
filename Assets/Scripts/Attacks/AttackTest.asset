@@ -10,12 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0afd24a8b9ace6d4483ff6030d90a56d, type: 3}
-  m_Name: BasicAttack
+  m_Name: AttackTest
   m_EditorClassIdentifier: 
+  AttackName: Test
+  AttackText: ???
   TargetAttack: 1
   AbilityType: 0
-  AttackName: Basic attack
-  AttackText: +1 Damage
-  AttackDamage: 1
+  AttackDamage: 0
   DamageBlock: 0
   Heal: 0
+  LifeBoost: 0
+  AttackBoost: 0
+  DefenseBoost: 0
+  SpeedBoost: 0

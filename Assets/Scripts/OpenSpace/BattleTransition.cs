@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class BattleTransition : MonoBehaviour
 {
     [SerializeField] FileData _data;
+    [SerializeField] OpenWolrdManager _openWorldManager;
+    [SerializeField] PlayerMovement _playerMovement;
     [SerializeField]GameObject _transitionIn;
     [SerializeField]GameObject _transitionOut;
     [SerializeField] string _sceneName;
@@ -34,7 +36,8 @@ public class BattleTransition : MonoBehaviour
 
     IEnumerator TransitionBattle()
     {
-        GetComponent<PlayerMovement>().IsParalysed = true;
+        //_openWorldManager.SavePositions();
+        _playerMovement.IsParalysed = true;
         _transitionOut.SetActive(true);
 
         yield return new WaitForSeconds(1.5f);

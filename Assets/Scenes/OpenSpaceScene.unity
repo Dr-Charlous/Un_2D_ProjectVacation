@@ -3687,6 +3687,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5221343783410135395, guid: b4cbc04588e89734c816350fcd4940d9, type: 3}
+      propertyPath: _openWorldManager
+      value: 
+      objectReference: {fileID: 1524478863}
     - target: {fileID: 8805530236570676439, guid: b4cbc04588e89734c816350fcd4940d9, type: 3}
       propertyPath: _transitionIn
       value: 
@@ -3695,6 +3699,10 @@ PrefabInstance:
       propertyPath: _transitionOut
       value: 
       objectReference: {fileID: 1366172060}
+    - target: {fileID: 8805530236570676439, guid: b4cbc04588e89734c816350fcd4940d9, type: 3}
+      propertyPath: _openWorldManager
+      value: 
+      objectReference: {fileID: 1524478863}
     - target: {fileID: 9080376720276962708, guid: b4cbc04588e89734c816350fcd4940d9, type: 3}
       propertyPath: _textStats
       value: 

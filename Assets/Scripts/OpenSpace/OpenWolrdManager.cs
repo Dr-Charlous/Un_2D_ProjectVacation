@@ -7,8 +7,10 @@ public class OpenWolrdManager : MonoBehaviour
     [SerializeField] FileData _data;
     [SerializeField] GameObject[] _chara;
 
-    private void Start()
+    void Start()
     {
+        LoadPositions();
+
         if (_data.Characters.Count > 0)
         {
             for (int i = 0; i < _data.Characters.Count; i++)
@@ -23,6 +25,22 @@ public class OpenWolrdManager : MonoBehaviour
             }
 
             _data.Characters.Clear();
+        }
+    }
+
+    public void SavePositions()
+    {
+        for (int i = 0; i < _chara.Length; i++)
+        {
+            _chara[i].GetComponent<CharacterUi>().CharacterStats.CharaPosition = _chara[i].transform.position;
+        }
+    }
+
+    public void LoadPositions()
+    {
+        for (int i = 0; i < _chara.Length; i++)
+        {
+            _chara[i].transform.position = _chara[i].GetComponent<CharacterUi>().CharacterStats.CharaPosition;
         }
     }
 }

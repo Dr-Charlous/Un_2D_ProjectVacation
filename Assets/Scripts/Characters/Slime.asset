@@ -23,6 +23,7 @@ MonoBehaviour:
   SpeedStat: 1
   AttackDefenseRatio: 5
   ActionFleeRatio: 0
+  CharaPosition: {x: 0, y: 4}
   CharaAbilities:
   - {fileID: 11400000, guid: 1ddfc29ed5e0c8b46b3877e17886e45b, type: 2}
   - {fileID: 11400000, guid: 45fa505fde580ca459677d53d9331e8a, type: 2}

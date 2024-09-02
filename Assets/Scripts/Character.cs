@@ -22,6 +22,9 @@ public class Character : MonoBehaviour
     [Header("In Battle :")]
     public bool isDefending = false;
     public int LifePoints;
+    public int AttackBoost = 0;
+    public int DefenseBoost = 0;
+    public int SpeedBoost = 0;
 
     public void StartCharacter()
     {

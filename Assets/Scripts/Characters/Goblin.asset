@@ -14,15 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CharaSprite: {fileID: 21300000, guid: 3fd0871d4f8a55a4a9449c37865c4748, type: 3}
   Name: Goblin
-  Level: 3
-  Exp: 0
-  ExpNextLevel: 26
-  LifeStat: 8
-  AttackStat: 1
-  DefenseStat: 2
-  SpeedStat: 1
+  Level: 4
+  Exp: 45
+  ExpNextLevel: 52
+  LifeStat: 4
+  AttackStat: 5
+  DefenseStat: 3
+  SpeedStat: 3
   AttackDefenseRatio: 7
   ActionFleeRatio: 3
+  CharaPosition: {x: 6, y: 0}
   CharaAbilities:
   - {fileID: 11400000, guid: 1ddfc29ed5e0c8b46b3877e17886e45b, type: 2}
   - {fileID: 11400000, guid: 63eda6922b9946d4c99e9b8917b2c375, type: 2}

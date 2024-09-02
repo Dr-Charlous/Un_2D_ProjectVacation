@@ -23,5 +23,6 @@ public class CharacterData : ScriptableObject
     [Range(0, 10)]
     public int ActionFleeRatio;
 
+    public Vector2 CharaPosition;
     public ScriptableAttack[] CharaAbilities;
 }

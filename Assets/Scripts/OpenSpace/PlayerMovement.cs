@@ -34,6 +34,8 @@ public class PlayerMovement : MonoBehaviour
 
     public bool IsParalysed = false;
 
+    [SerializeField] OpenWolrdManager _openWorldManager;
+    [SerializeField] CharacterUi _charaUi;
     [SerializeField] Vector2 _direction;
     [SerializeField] float _speed;
 
@@ -48,6 +50,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_direction != Vector2.zero)
             Move(new Vector2(_direction.x, _direction.y));
+
+        //_openWorldManager.SavePositions();
+        _charaUi.CharacterStats.CharaPosition = transform.position;
     }
 
     void WalkingInputFunction(InputAction.CallbackContext move)

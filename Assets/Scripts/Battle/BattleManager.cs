@@ -73,7 +73,7 @@ public class BattleManager : MonoBehaviour
         }
 
         if (_charactersInOrder[0].IsPlayable)
-            ActualiseAttacksText();
+            ActualiseAttacksNameButtons();
 
         if (!_isBattleTestScene)
             _data.Characters.Clear();
@@ -106,10 +106,15 @@ public class BattleManager : MonoBehaviour
             Character chara = _charactersInOrder[0];
             _charactersInOrder.RemoveAt(0);
             _charactersInOrder.Add(chara);
+            int charaNumber = 0;
 
             for (int i = 0; i < _iconesTurn.Count; i++)
             {
-                _iconesTurn[i].sprite = _charactersInOrder[i].CharacterStats.CharaSprite;
+                if (_charactersInOrder.Count <= charaNumber)
+                    charaNumber -= _charactersInOrder.Count;
+
+                _iconesTurn[i].sprite = _charactersInOrder[charaNumber].CharacterStats.CharaSprite;
+                charaNumber++;
             }
 
             _charactersInOrder[0].isDefending = false;
@@ -117,34 +122,11 @@ public class BattleManager : MonoBehaviour
 
             if (_charactersInOrder[0].IsPlayable)
             {
-                ActualiseAttacksText();
+                ActualiseAttacksNameButtons();
                 _combatText.text = $"{_charactersInOrder[0].CharacterStats.Name} Turn";
             }
 
             StartBot();
-        }
-    }
-
-    void ActualiseAttacksText()
-    {
-        for (int i = 0; i < _AttackButtons.Length; i++)
-        {
-            string text = $"{_charactersInOrder[0].CharacterStats.CharaAbilities[i].AttackName}\n{_charactersInOrder[0].CharacterStats.CharaAbilities[i].AttackText}";
-            _AttackButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = text;
-        }
-    }
-
-    public void LaunchAttack(int i)
-    {
-        StartCoroutine(Attack(_charactersInOrder[0].CharacterStats.CharaAbilities[i]));
-    }
-
-    void ChangeButtonsActivation(bool activated)
-    {
-        for (int i = 0; i < _buttons.Length; i++)
-        {
-            if (_buttons[i].interactable != activated)
-                _buttons[i].interactable = activated;
         }
     }
 
@@ -196,37 +178,32 @@ public class BattleManager : MonoBehaviour
 
         ChangeButtonsActivation(false);
     }
+
+    void ChangeButtonsActivation(bool activated)
+    {
+        for (int i = 0; i < _buttons.Length; i++)
+        {
+            if (_buttons[i].interactable != activated)
+                _buttons[i].interactable = activated;
+        }
+    }
+
+    void ActualiseAttacksNameButtons()
+    {
+        for (int i = 0; i < _AttackButtons.Length; i++)
+        {
+            string text = $"{_charactersInOrder[0].CharacterStats.CharaAbilities[i].AttackName}\n{_charactersInOrder[0].CharacterStats.CharaAbilities[i].AttackText}";
+            _AttackButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = text;
+        }
+    }
     #endregion Buttons
 
     #region Actions
+
     public IEnumerator Attack(ScriptableAttack attack)
     {
         _combatText.text = $@"{_charactersInOrder[0].name} use {attack.AttackName}";
-        int lifeLose = Attack(_charactersInOrder[0], _charactersInOrder[1], attack);
-
-        if (lifeLose <= 0)
-        {
-            _playerAttackText.color = Color.green;
-            _ennemyAttackText.color = Color.green;
-            _playerAttackText.text = "+";
-            _ennemyAttackText.text = "+";
-        }
-        else
-        {
-            _playerAttackText.color = Color.red;
-            _ennemyAttackText.color = Color.red;
-        }
-
-        if (_charactersInOrder[0].IsPlayable)
-        {
-            _playerAttackDisplay.SetActive(true);
-            _playerAttackText.text += $"{-lifeLose}";
-        }
-        else
-        {
-            _ennemyAttackDisplay.SetActive(true);
-            _ennemyAttackText.text += $"{-lifeLose}";
-        }
+        Attack(_charactersInOrder[0], _charactersInOrder[1], attack);
 
         yield return new WaitForSeconds(_timerBetweenActions / 4 * 3);
 
@@ -265,7 +242,7 @@ public class BattleManager : MonoBehaviour
             ChangeTurn();
     }
 
-    int Attack(Character charaAttack, Character charaDefense, ScriptableAttack attack)
+    void Attack(Character charaAttack, Character charaDefense, ScriptableAttack attack)
     {
         int lifePointsLose = 0;
         int attackValue = charaAttack.CharacterStats.AttackStat + attack.AttackDamage;
@@ -293,22 +270,8 @@ public class BattleManager : MonoBehaviour
         }
 
         Defeat(charaAttack, charaDefense);
-
+        AttackText(lifePointsLose);
         charaDefense.ActualiseLifeDisplay();
-        return lifePointsLose;
-    }
-
-    void Defeat(Character charaAttack, Character charaDefense)
-    {
-        if (charaDefense.LifePoints > charaDefense.CharacterStats.LifeStat)
-            charaDefense.LifePoints = charaDefense.CharacterStats.LifeStat;
-
-        if (charaDefense.LifePoints <= 0)
-        {
-            charaDefense.LifePoints = 0;
-            Exp(charaAttack, charaDefense);
-            OutOfBattle(charaDefense);
-        }
     }
 
     void Defense(Character charaDefense)
@@ -334,14 +297,54 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    public void OutOfBattle(Character charaDefense)
+    public void LaunchAttack(int i)
     {
-        _isBattleFinish = true;
+        StartCoroutine(Attack(_charactersInOrder[0].CharacterStats.CharaAbilities[i]));
+    }
 
-        if (charaDefense != null && !charaDefense.IsPlayable)
-            _dataKill.Characters.Add(charaDefense.CharacterStats);
+    void AttackText(int lifeLose)
+    {
+        string text = "";
 
-        StartCoroutine(_transition.TransitionOpenSpace());
+        if (lifeLose <= 0)
+        {
+            _playerAttackText.color = Color.green;
+            _ennemyAttackText.color = Color.green;
+            text += "+";
+        }
+        else
+        {
+            _playerAttackText.color = Color.red;
+            _ennemyAttackText.color = Color.red;
+        }
+
+        if (_charactersInOrder[0].IsPlayable)
+        {
+            _playerAttackDisplay.SetActive(true);
+            text += -lifeLose;
+            _playerAttackText.text = text;
+        }
+        else
+        {
+            _ennemyAttackDisplay.SetActive(true);
+            text += -lifeLose;
+            _ennemyAttackText.text = text;
+        }
+    }
+    #endregion Actions
+
+    #region EndBattle
+    void Defeat(Character charaAttack, Character charaDefense)
+    {
+        if (charaDefense.LifePoints > charaDefense.CharacterStats.LifeStat)
+            charaDefense.LifePoints = charaDefense.CharacterStats.LifeStat;
+
+        if (charaDefense.LifePoints <= 0)
+        {
+            charaDefense.LifePoints = 0;
+            Exp(charaAttack, charaDefense);
+            OutOfBattle(charaDefense);
+        }
     }
 
     void Exp(Character charaAttack, Character charaDefense)
@@ -401,5 +404,15 @@ public class BattleManager : MonoBehaviour
 
         charaAttack.CharacterStats.Exp = exp;
     }
-    #endregion Actions
+
+    public void OutOfBattle(Character charaDefense)
+    {
+        _isBattleFinish = true;
+
+        if (charaDefense != null && !charaDefense.IsPlayable)
+            _dataKill.Characters.Add(charaDefense.CharacterStats);
+
+        StartCoroutine(_transition.TransitionOpenSpace());
+    }
+    #endregion EndBattle
 }

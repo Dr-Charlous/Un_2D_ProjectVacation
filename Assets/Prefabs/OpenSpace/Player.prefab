@@ -309,6 +309,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsParalysed: 0
+  _openWorldManager: {fileID: 0}
+  _charaUi: {fileID: 9080376720276962708}
   _direction: {x: 0, y: 0}
   _speed: 0.5
 --- !u!114 &9080376720276962708
@@ -340,6 +342,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _data: {fileID: 11400000, guid: ec35378ea14597646b3ff44a8a3c3aad, type: 2}
+  _openWorldManager: {fileID: 0}
+  _playerMovement: {fileID: 5221343783410135395}
   _transitionIn: {fileID: 0}
   _transitionOut: {fileID: 0}
   _sceneName: BattleScene
