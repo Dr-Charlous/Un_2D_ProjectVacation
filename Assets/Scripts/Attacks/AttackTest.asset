@@ -15,10 +15,9 @@ MonoBehaviour:
   AttackName: Test
   AttackText: ???
   TargetAttack: 1
-  AbilityType: 0
+  AbilityType: 2
   AttackDamage: 0
-  DamageBlock: 0
-  Heal: 0
+  HealPoints: 0
   LifeBoost: 0
   AttackBoost: 0
   DefenseBoost: 0

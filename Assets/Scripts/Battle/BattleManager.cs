@@ -62,6 +62,7 @@ public class BattleManager : MonoBehaviour
         }
 
         int count = _characters.Count;
+
         for (int i = 0; i < count; i++)
         {
             Character chara = SortSpeed(_characters);
@@ -71,9 +72,6 @@ public class BattleManager : MonoBehaviour
 
             _iconesTurn[i].sprite = chara.CharacterStats.CharaSprite;
         }
-
-        if (_charactersInOrder[0].IsPlayable)
-            ActualiseAttacksNameButtons();
 
         if (!_isBattleTestScene)
             _data.Characters.Clear();
@@ -122,7 +120,7 @@ public class BattleManager : MonoBehaviour
 
             if (_charactersInOrder[0].IsPlayable)
             {
-                ActualiseAttacksNameButtons();
+                ActualiseAttacksNameButtons(0);
                 _combatText.text = $"{_charactersInOrder[0].CharacterStats.Name} Turn";
             }
 
@@ -136,11 +134,12 @@ public class BattleManager : MonoBehaviour
         {
             ChangeButtonsActivation(false);
 
-            int number = Random.Range(0, 10 + _charactersInOrder[0].CharacterStats.ActionFleeRatio);
-            if (number <= _charactersInOrder[0].CharacterStats.AttackDefenseRatio && _coroutine == null)
+            int number = Random.Range(0, _charactersInOrder[0].CharacterStats.AttackFleeRatio);
+
+            if (number <= _charactersInOrder[0].CharacterStats.AttackFleeRatio && _coroutine == null)
                 StartCoroutine(Attack(_charactersInOrder[0].CharacterStats.CharaAbilities[Random.Range(0, _charactersInOrder[0].CharacterStats.CharaAbilities.Length)]));
-            else if (number > _charactersInOrder[0].CharacterStats.AttackDefenseRatio && number <= 10 && _coroutine == null)
-                StartCoroutine(Defense());
+            //else if (number > _charactersInOrder[0].CharacterStats.AttackDefenseRatio && number <= 10 && _coroutine == null)
+            //    StartCoroutine(Defense());
             else if (_coroutine == null)
                 StartCoroutine(Flee());
         }
@@ -159,15 +158,15 @@ public class BattleManager : MonoBehaviour
         ChangeButtonsActivation(false);
     }
 
-    public void ButtonDefense()
-    {
-        if (_charactersInOrder[0].IsPlayable && _coroutine == null)
-        {
-            _coroutine = StartCoroutine(Defense());
-        }
+    //public void ButtonDefense()
+    //{
+    //    if (_charactersInOrder[0].IsPlayable && _coroutine == null)
+    //    {
+    //        _coroutine = StartCoroutine(Defense());
+    //    }
 
-        ChangeButtonsActivation(false);
-    }
+    //    ChangeButtonsActivation(false);
+    //}
 
     public void ButtonFlee()
     {
@@ -188,11 +187,11 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    void ActualiseAttacksNameButtons()
+    void ActualiseAttacksNameButtons(int number)
     {
         for (int i = 0; i < _AttackButtons.Length; i++)
         {
-            string text = $"{_charactersInOrder[0].CharacterStats.CharaAbilities[i].AttackName}\n{_charactersInOrder[0].CharacterStats.CharaAbilities[i].AttackText}";
+            string text = $"{_charactersInOrder[number].CharacterStats.CharaAbilities[i].AttackName}\n{_charactersInOrder[number].CharacterStats.CharaAbilities[i].AttackText}";
             _AttackButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = text;
         }
     }
@@ -216,21 +215,21 @@ public class BattleManager : MonoBehaviour
             ChangeTurn();
     }
 
-    public IEnumerator Defense()
-    {
-        _combatText.text = $@"{_charactersInOrder[0].name} defend !";
-        Defense(_charactersInOrder[0]);
+    //public IEnumerator Defense()
+    //{
+    //    _combatText.text = $@"{_charactersInOrder[0].name} defend !";
+    //    Defense(_charactersInOrder[0]);
 
-        _DefenseDisplay.SetActive(true);
+    //    _DefenseDisplay.SetActive(true);
 
-        yield return new WaitForSeconds(_timerBetweenActions / 4 * 3);
+    //    yield return new WaitForSeconds(_timerBetweenActions / 4 * 3);
 
-        _DefenseDisplay.SetActive(false);
+    //    _DefenseDisplay.SetActive(false);
 
-        yield return new WaitForSeconds(_timerBetweenActions / 4);
+    //    yield return new WaitForSeconds(_timerBetweenActions / 4);
 
-        ChangeTurn();
-    }
+    //    ChangeTurn();
+    //}
 
     public IEnumerator Flee()
     {
@@ -244,44 +243,18 @@ public class BattleManager : MonoBehaviour
 
     void Attack(Character charaAttack, Character charaDefense, ScriptableAttack attack)
     {
-        int lifePointsLose = 0;
-        int attackValue = charaAttack.CharacterStats.AttackStat + attack.AttackDamage;
-
-        if (attack.TargetAttack == ScriptableAttack.Target.Self)
-        {
-            charaDefense = charaAttack;
-            charaDefense.LifePoints += attack.AttackDamage + charaDefense.CharacterStats.DefenseStat;
-            lifePointsLose = attack.AttackDamage + charaDefense.CharacterStats.DefenseStat;
-            lifePointsLose *= -1;
-        }
-        else
-        {
-            if (charaDefense.isDefending)
-            {
-                if (attackValue - charaDefense.CharacterStats.DefenseStat > 0)
-                    lifePointsLose += attackValue - charaDefense.CharacterStats.DefenseStat;
-                else
-                    _combatText.text = @$"{charaDefense.CharacterStats.Name} block the attack";
-            }
-            else
-                lifePointsLose += attackValue;
-
-            charaDefense.LifePoints -= lifePointsLose;
-        }
+        int lifePointsLose = attack.Action(charaAttack, charaDefense);
 
         Defeat(charaAttack, charaDefense);
         AttackText(lifePointsLose);
         charaDefense.ActualiseLifeDisplay();
-    }
-
-    void Defense(Character charaDefense)
-    {
-        charaDefense.isDefending = true;
+        charaAttack.ActualiseLifeDisplay();
     }
 
     void Flee(Character charaAttack, Character charaDefense)
     {
         int number = Random.Range(0, 10);
+
         if (number == 0)
         {
             _combatText.text = $@"{_charactersInOrder[0].name} fall during flee...";
@@ -293,6 +266,8 @@ public class BattleManager : MonoBehaviour
         {
             _combatText.text = $@"{_charactersInOrder[0].name} flee...";
             //OutOfBattle(charaDefense);
+            ResetBoost(charaAttack);
+            ResetBoost(charaDefense);
             OutOfBattle(null);
         }
     }
@@ -342,6 +317,8 @@ public class BattleManager : MonoBehaviour
         if (charaDefense.LifePoints <= 0)
         {
             charaDefense.LifePoints = 0;
+            ResetBoost(charaAttack);
+            ResetBoost(charaDefense);
             Exp(charaAttack, charaDefense);
             OutOfBattle(charaDefense);
         }
@@ -403,6 +380,14 @@ public class BattleManager : MonoBehaviour
         }
 
         charaAttack.CharacterStats.Exp = exp;
+    }
+
+    void ResetBoost(Character chara)
+    {
+        chara.CharacterStats.LifeBoost = 0;
+        chara.CharacterStats.AttackBoost = 0;
+        chara.CharacterStats.DefenseBoost = 0;
+        chara.CharacterStats.SpeedBoost = 0;
     }
 
     public void OutOfBattle(Character charaDefense)

@@ -25,10 +25,10 @@ public class CharacterUi : MonoBehaviour
         string stats = $"--- {CharacterStats.Name} ---\n";
         stats += $"Lvl{CharacterStats.Level} : {CharacterStats.Exp}/{CharacterStats.ExpNextLevel} Exp\n";
         stats += $"\n";
-        stats += $"Vitality : {CharacterStats.LifeStat}\n";
-        stats += $"Attack   : {CharacterStats.AttackStat}\n";
-        stats += $"Defense  : {CharacterStats.DefenseStat}\n";
-        stats += $"Speed    : {CharacterStats.SpeedStat}\n";
+        stats += $"Vitality : {CharacterStats.LifeStat} + {CharacterStats.LifeBoost}\n";
+        stats += $"Attack   : {CharacterStats.AttackStat} + {CharacterStats.AttackBoost}\n";
+        stats += $"Defense  : {CharacterStats.DefenseStat} + {CharacterStats.DefenseBoost}\n";
+        stats += $"Speed    : {CharacterStats.SpeedStat} + {CharacterStats.SpeedBoost}\n";
         stats += $"\n";
         stats += $"Abilities : \n";
 

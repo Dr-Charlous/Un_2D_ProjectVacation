@@ -11,17 +11,23 @@ public class CharacterData : ScriptableObject
     public int Exp;
     public int ExpNextLevel;
 
-    [Header("")]
+    [Header("Stats :")]
     public int LifeStat;
     public int AttackStat;
     public int DefenseStat;
     public int SpeedStat;
 
+    [Header("Stats bonus :")]
+    public int LifeBoost;
+    public int AttackBoost;
+    public int DefenseBoost;
+    public int SpeedBoost;
+
     [Header("")]
     [Range(0, 10)]
-    public int AttackDefenseRatio;
-    [Range(0, 10)]
-    public int ActionFleeRatio;
+    public int AttackFleeRatio;
+    //[Range(0, 10)]
+    //public int ActionFleeRatio;
 
     public Vector2 CharaPosition;
     public ScriptableAttack[] CharaAbilities;

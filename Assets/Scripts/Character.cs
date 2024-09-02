@@ -22,9 +22,6 @@ public class Character : MonoBehaviour
     [Header("In Battle :")]
     public bool isDefending = false;
     public int LifePoints;
-    public int AttackBoost = 0;
-    public int DefenseBoost = 0;
-    public int SpeedBoost = 0;
 
     public void StartCharacter()
     {
@@ -33,6 +30,7 @@ public class Character : MonoBehaviour
 
         LifePoints = CharacterStats.LifeStat;
         ActualiseLifeDisplay();
+        StatsDisplay.gameObject.SetActive(false);
         ActualiseStats();
         NameDisplay.text = $@"{CharacterStats.Name}    Lvl:{CharacterStats.Level}";
         CharacterDisplay.sprite = CharacterStats.CharaSprite;
@@ -43,10 +41,10 @@ public class Character : MonoBehaviour
         string stats = $"--- {CharacterStats.Name} ---\n";
         stats += $"Lvl: {CharacterStats.Level} : {CharacterStats.Exp}/{CharacterStats.ExpNextLevel} Exp\n";
         stats += $"\n";
-        stats += $"Vitality : {CharacterStats.LifeStat}\n";
-        stats += $"Attack   : {CharacterStats.AttackStat}\n";
-        stats += $"Defense  : {CharacterStats.DefenseStat}\n";
-        stats += $"Speed    : {CharacterStats.SpeedStat}\n";
+        stats += $"Vitality : {CharacterStats.LifeStat} + {CharacterStats.LifeBoost}\n";
+        stats += $"Attack   : {CharacterStats.AttackStat} + {CharacterStats.AttackBoost}\n";
+        stats += $"Defense  : {CharacterStats.DefenseStat} + {CharacterStats.DefenseBoost}\n";
+        stats += $"Speed    : {CharacterStats.SpeedStat} + {CharacterStats.SpeedBoost}\n";
         stats += $"\n";
         stats += $"Abilities : \n";
 
@@ -56,13 +54,14 @@ public class Character : MonoBehaviour
         }
 
         StatsDisplayText.text = stats;
-        StatsDisplay.gameObject.SetActive(false);
     }
 
     public void ActualiseLifeDisplay()
     {
         LifeDisplay.fillAmount = (float)LifePoints / CharacterStats.LifeStat;
         LifeDisplayText.text = @$"{LifePoints} / {CharacterStats.LifeStat}";
+
+        ActualiseStats();
     }
 
     public void ButtonShowStats()
