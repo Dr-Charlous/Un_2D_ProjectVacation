@@ -30,3 +30,4 @@ MonoBehaviour:
   CharaAbilities:
   - {fileID: 11400000, guid: 1ddfc29ed5e0c8b46b3877e17886e45b, type: 2}
   - {fileID: 11400000, guid: 45fa505fde580ca459677d53d9331e8a, type: 2}
+  - {fileID: 11400000, guid: a4cceaf628c52d141a6a75e453f6d892, type: 2}

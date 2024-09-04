@@ -37,9 +37,6 @@ public class ScriptableAttack : ScriptableObject
             {
                 //EditorGUILayout.BeginHorizontal();
 
-                EditorGUILayout.LabelField("Life boost :", GUILayout.MaxWidth(150));
-                ability.LifeBoost = EditorGUILayout.IntField(ability.LifeBoost, GUILayout.MaxWidth(100));
-
                 EditorGUILayout.LabelField("Attack boost :", GUILayout.MaxWidth(150));
                 ability.AttackBoost = EditorGUILayout.IntField(ability.AttackBoost, GUILayout.MaxWidth(100));
 
@@ -83,7 +80,6 @@ public class ScriptableAttack : ScriptableObject
     [HideInInspector] public int HealPoints = 0;
 
     //Stats type :
-    [HideInInspector] public int LifeBoost = 0;
     [HideInInspector] public int AttackBoost = 0;
     [HideInInspector] public int DefenseBoost = 0;
     [HideInInspector] public int SpeedBoost = 0;
@@ -109,26 +105,16 @@ public class ScriptableAttack : ScriptableObject
     {
         int damage = charaAttack.CharacterStats.AttackStat + AttackDamage + charaAttack.CharacterStats.AttackBoost;
         int defense = charaDefense.CharacterStats.DefenseStat + charaDefense.CharacterStats.DefenseBoost;
-        int blockedDamages = defense - damage;
+        int damageTook = damage / 2 - defense / 4;
 
-        if (blockedDamages < 0)
+        if (damageTook <= 0)
         {
-            int lifeLose = damage - blockedDamages;
-
-            charaDefense.CharacterStats.LifeBoost -= lifeLose;
-
-            if (charaDefense.CharacterStats.LifeBoost < 0)
-            {
-                lifeLose = -charaDefense.CharacterStats.LifeBoost;
-                charaDefense.CharacterStats.LifeBoost = 0;
-            }
-
-            charaDefense.LifePoints -= lifeLose;
-            return lifeLose;
+            return 0;
         }
         else
         {
-            return 0;
+            charaDefense.LifePoints -= damageTook;
+            return damageTook;
         }
     }
 
@@ -137,16 +123,15 @@ public class ScriptableAttack : ScriptableObject
         int heal = charaAttack.CharacterStats.AttackStat + HealPoints;
 
         charaAttack.LifePoints += heal;
-        if (charaAttack.LifePoints > (charaAttack.CharacterStats.LifeStat + charaAttack.CharacterStats.LifeBoost))
+        if (charaAttack.LifePoints > charaAttack.CharacterStats.LifeStat)
         {
-            charaAttack.LifePoints = charaAttack.CharacterStats.LifeStat + charaAttack.CharacterStats.LifeBoost;
+            charaAttack.LifePoints = charaAttack.CharacterStats.LifeStat;
         }
         return heal;
     }
 
     public int Stat(Character charaAttack)
     {
-        charaAttack.CharacterStats.LifeBoost += LifeBoost;
         charaAttack.CharacterStats.AttackBoost += AttackBoost;
         charaAttack.CharacterStats.DefenseBoost += DefenseBoost;
         charaAttack.CharacterStats.SpeedBoost += SpeedBoost;

@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class OpenSpaceTransition : MonoBehaviour
 {
+    [SerializeField] BattleManager _battleManager;
     [SerializeField] GameObject _transitionIn;
     [SerializeField] GameObject _transitionOut;
     [SerializeField] string _sceneName;
@@ -22,6 +23,9 @@ public class OpenSpaceTransition : MonoBehaviour
 
         yield return new WaitForSeconds(1.5f);
 
-        SceneManager.LoadScene(_sceneName);
+        if (!_battleManager.IsBattleTestScene)
+            SceneManager.LoadScene(_sceneName);
+        else
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

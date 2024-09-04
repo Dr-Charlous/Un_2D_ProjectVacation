@@ -3,41 +3,46 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
 {
+    [Header("Characters :")]
     [SerializeField] List<Character> _characters;
     [SerializeField] List<Character> _charactersInSpeedOrder;
     [SerializeField] List<Character> _charactersInOrder;
-    [SerializeField] List<Image> _iconesTurn;
-    [SerializeField] TextMeshProUGUI _combatText;
 
-    [Header("")]
+    [Header("Data :")]
     [SerializeField] FileData _data;
     [SerializeField] FileData _dataKill;
     [SerializeField] Button[] _buttons;
     [SerializeField] OpenSpaceTransition _transition;
 
-    [Header("")]
+    [Header("Display :")]
+    [SerializeField] List<Image> _iconesTurn;
+    [SerializeField] TextMeshProUGUI _combatText;
     [SerializeField] GameObject _playerAttackDisplay;
     [SerializeField] GameObject _ennemyAttackDisplay;
     [SerializeField] GameObject _DefenseDisplay;
     [SerializeField] TextMeshProUGUI _playerAttackText;
     [SerializeField] TextMeshProUGUI _ennemyAttackText;
 
-    [Header("")]
-    [SerializeField] float _timerBetweenActions;
-    [SerializeField] bool _isBattleFinish = false;
+    [Header("Values :")]
     [SerializeField] Button[] _AttackButtons;
+    [SerializeField] bool _isBattleFinish = false;
+    [SerializeField] float _timerBetweenActions;
+    [SerializeField] int _pointsPerLevels = 3;
+    [SerializeField] int _expPerMob = 5;
+    [SerializeField] int _expMultiplier = 1;
 
-    [Header("")]
-    [SerializeField] bool _isBattleTestScene = false;
+    [Header("Debug :")]
+    public bool IsBattleTestScene = false;
 
     Coroutine _coroutine = null;
 
-
+    #region BeginBattle
     private void Start()
     {
         BeginBattle();
@@ -45,7 +50,7 @@ public class BattleManager : MonoBehaviour
 
     void BeginBattle()
     {
-        if (_isBattleTestScene)
+        if (IsBattleTestScene)
         {
             for (int i = 0; i < _characters.Count; i++)
             {
@@ -73,8 +78,24 @@ public class BattleManager : MonoBehaviour
             _iconesTurn[i].sprite = chara.CharacterStats.CharaSprite;
         }
 
-        if (!_isBattleTestScene)
+        //Init Turns
+        int charaNumber = 0;
+
+        for (int i = 0; i < _iconesTurn.Count; i++)
+        {
+            if (_charactersInOrder.Count <= charaNumber)
+                charaNumber -= _charactersInOrder.Count;
+
+            _iconesTurn[i].sprite = _charactersInOrder[charaNumber].CharacterStats.CharaSprite;
+            charaNumber++;
+        }
+
+        if (_charactersInOrder[0].IsPlayable)
+            ActualiseAttacksNameButtons(0);
+
+        if (!IsBattleTestScene)
             _data.Characters.Clear();
+
         StartBot();
     }
 
@@ -130,22 +151,27 @@ public class BattleManager : MonoBehaviour
 
     void StartBot()
     {
-        if (_charactersInOrder[0].IsPlayable != true)
+        if (_coroutine != null)
+            return;
+
+        if (!_charactersInOrder[0].IsPlayable)
         {
             ChangeButtonsActivation(false);
 
-            int number = Random.Range(0, _charactersInOrder[0].CharacterStats.AttackFleeRatio);
+            if (_coroutine == null)
+            {
+                int number = Random.Range(0, _charactersInOrder[0].CharacterStats.AttackFleeRatio);
 
-            if (number <= _charactersInOrder[0].CharacterStats.AttackFleeRatio && _coroutine == null)
-                StartCoroutine(Attack(_charactersInOrder[0].CharacterStats.CharaAbilities[Random.Range(0, _charactersInOrder[0].CharacterStats.CharaAbilities.Length)]));
-            //else if (number > _charactersInOrder[0].CharacterStats.AttackDefenseRatio && number <= 10 && _coroutine == null)
-            //    StartCoroutine(Defense());
-            else if (_coroutine == null)
-                StartCoroutine(Flee());
+                if (number <= _charactersInOrder[0].CharacterStats.AttackFleeRatio)
+                    StartCoroutine(Attack(_charactersInOrder[0].CharacterStats.CharaAbilities[Random.Range(0, _charactersInOrder[0].CharacterStats.CharaAbilities.Length)]));
+                else
+                    StartCoroutine(Flee());
+            }
         }
         else
             ChangeButtonsActivation(true);
     }
+    #endregion BeginBattle
 
     #region Buttons
     public void ButtonAttack(ScriptableAttack attack)
@@ -157,16 +183,6 @@ public class BattleManager : MonoBehaviour
 
         ChangeButtonsActivation(false);
     }
-
-    //public void ButtonDefense()
-    //{
-    //    if (_charactersInOrder[0].IsPlayable && _coroutine == null)
-    //    {
-    //        _coroutine = StartCoroutine(Defense());
-    //    }
-
-    //    ChangeButtonsActivation(false);
-    //}
 
     public void ButtonFlee()
     {
@@ -198,7 +214,6 @@ public class BattleManager : MonoBehaviour
     #endregion Buttons
 
     #region Actions
-
     public IEnumerator Attack(ScriptableAttack attack)
     {
         _combatText.text = $@"{_charactersInOrder[0].name} use {attack.AttackName}";
@@ -215,22 +230,6 @@ public class BattleManager : MonoBehaviour
             ChangeTurn();
     }
 
-    //public IEnumerator Defense()
-    //{
-    //    _combatText.text = $@"{_charactersInOrder[0].name} defend !";
-    //    Defense(_charactersInOrder[0]);
-
-    //    _DefenseDisplay.SetActive(true);
-
-    //    yield return new WaitForSeconds(_timerBetweenActions / 4 * 3);
-
-    //    _DefenseDisplay.SetActive(false);
-
-    //    yield return new WaitForSeconds(_timerBetweenActions / 4);
-
-    //    ChangeTurn();
-    //}
-
     public IEnumerator Flee()
     {
         Flee(_charactersInOrder[0], _charactersInOrder[1]);
@@ -243,7 +242,20 @@ public class BattleManager : MonoBehaviour
 
     void Attack(Character charaAttack, Character charaDefense, ScriptableAttack attack)
     {
-        int lifePointsLose = attack.Action(charaAttack, charaDefense);
+        int attSpeed = charaAttack.CharacterStats.SpeedStat + charaAttack.CharacterStats.SpeedBoost;
+        int defSpeed = charaDefense.CharacterStats.SpeedStat + charaDefense.CharacterStats.SpeedBoost;
+
+        // %de l'arme
+        int hit = 75;
+
+        int precision = 100 - (100 - hit) * (((1 + defSpeed) / (attSpeed - 1)) / 2);
+        //Debug.Log(precision);
+
+        int lifePointsLose = 0;
+        if (Random.Range(0, 101) <= precision)
+            lifePointsLose = attack.Action(charaAttack, charaDefense);
+        else
+            Debug.Log($"{charaAttack.CharacterStats.Name} miss");
 
         Defeat(charaAttack, charaDefense);
         AttackText(lifePointsLose);
@@ -326,8 +338,13 @@ public class BattleManager : MonoBehaviour
 
     void Exp(Character charaAttack, Character charaDefense)
     {
-        int expGiven = charaDefense.CharacterStats.LifeStat + charaDefense.CharacterStats.AttackStat + charaDefense.CharacterStats.DefenseStat + charaDefense.CharacterStats.SpeedStat;
-        int exp = charaAttack.CharacterStats.Exp + expGiven;
+        //Exp optain
+        float expGiven = ((_expMultiplier * _expPerMob * charaAttack.CharacterStats.Level) / 5) * ((2 * charaDefense.CharacterStats.Level + 10) / (charaAttack.CharacterStats.Level + charaDefense.CharacterStats.Level + 10)) * 2.5f;
+        //float expGiven = _expPerMob * charaDefense.CharacterStats.Level * _expMultiplier;
+
+        Debug.Log(expGiven);
+
+        int exp = charaAttack.CharacterStats.Exp + Mathf.RoundToInt(expGiven);
         _combatText.text = $"{charaAttack.CharacterStats.Name} win the battle ! +{expGiven} Exp -> {exp}/{charaAttack.CharacterStats.ExpNextLevel}\n";
 
         if (exp >= charaAttack.CharacterStats.ExpNextLevel)
@@ -342,12 +359,15 @@ public class BattleManager : MonoBehaviour
             {
                 exp -= charaAttack.CharacterStats.ExpNextLevel;
                 levelUp++;
-                charaAttack.CharacterStats.ExpNextLevel = (charaAttack.CharacterStats.Level + levelUp) * 13;
+
+                //Level up
+                //charaAttack.CharacterStats.ExpNextLevel = charaDefense.CharacterStats.Level * 15;
+                charaAttack.CharacterStats.ExpNextLevel = Mathf.RoundToInt(Mathf.Pow(Mathf.Log(charaAttack.CharacterStats.Level * 2 + 1), 2) * 100);
             }
 
             charaAttack.CharacterStats.Level += levelUp;
 
-            for (int i = 0; i < 3 * levelUp; i++)
+            for (int i = 0; i < _pointsPerLevels * levelUp; i++)
             {
                 int random = Random.Range(0, 4);
 
@@ -361,7 +381,7 @@ public class BattleManager : MonoBehaviour
                     speed++;
             }
 
-            charaAttack.CharacterStats.LifeStat += life;
+            charaAttack.CharacterStats.LifeStat += life * 2;
             charaAttack.CharacterStats.AttackStat += attack;
             charaAttack.CharacterStats.DefenseStat += defense;
             charaAttack.CharacterStats.SpeedStat += speed;
@@ -384,7 +404,6 @@ public class BattleManager : MonoBehaviour
 
     void ResetBoost(Character chara)
     {
-        chara.CharacterStats.LifeBoost = 0;
         chara.CharacterStats.AttackBoost = 0;
         chara.CharacterStats.DefenseBoost = 0;
         chara.CharacterStats.SpeedBoost = 0;

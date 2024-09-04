@@ -26,7 +26,7 @@ public class Character : MonoBehaviour
     public void StartCharacter()
     {
         if (!IsPlayable)
-            InitCharaStatsByLevel(CharacterStats.Level);
+            CharacterStats.InitCharaStatsByLevel(CharacterStats.Level);
 
         LifePoints = CharacterStats.LifeStat;
         ActualiseLifeDisplay();
@@ -41,11 +41,29 @@ public class Character : MonoBehaviour
         string stats = $"--- {CharacterStats.Name} ---\n";
         stats += $"Lvl: {CharacterStats.Level} : {CharacterStats.Exp}/{CharacterStats.ExpNextLevel} Exp\n";
         stats += $"\n";
-        stats += $"Vitality : {CharacterStats.LifeStat} + {CharacterStats.LifeBoost}\n";
-        stats += $"Attack   : {CharacterStats.AttackStat} + {CharacterStats.AttackBoost}\n";
-        stats += $"Defense  : {CharacterStats.DefenseStat} + {CharacterStats.DefenseBoost}\n";
-        stats += $"Speed    : {CharacterStats.SpeedStat} + {CharacterStats.SpeedBoost}\n";
-        stats += $"\n";
+        stats += $"Vitality : {CharacterStats.LifeStat}";
+        stats += $"\nAttack   : {CharacterStats.AttackStat}";
+
+        if (CharacterStats.AttackBoost > 0)
+            stats += $" +{CharacterStats.AttackBoost}";
+        else if (CharacterStats.AttackBoost < 0)
+            stats += $" {CharacterStats.AttackBoost}";
+
+        stats += $"\nDefense  : {CharacterStats.DefenseStat}";
+
+        if (CharacterStats.DefenseBoost > 0)
+            stats += $" +{CharacterStats.DefenseBoost}";
+        else if (CharacterStats.DefenseBoost < 0)
+            stats += $" {CharacterStats.DefenseBoost}";
+
+        stats += $"\nSpeed    : {CharacterStats.SpeedStat}";
+
+        if (CharacterStats.SpeedBoost > 0)
+            stats += $" +{CharacterStats.SpeedBoost}";
+        else if (CharacterStats.SpeedBoost < 0)
+            stats += $" {CharacterStats.SpeedBoost}";
+
+        stats += $"\n\n";
         stats += $"Abilities : \n";
 
         for (int i = 0; i < CharacterStats.CharaAbilities.Length; i++)
@@ -67,36 +85,5 @@ public class Character : MonoBehaviour
     public void ButtonShowStats()
     {
         StatsDisplay.gameObject.SetActive(!StatsDisplay.gameObject.activeInHierarchy);
-    }
-
-    void InitCharaStatsByLevel(int level)
-    {
-        int life = 3;
-        int attack = 0;
-        int defense = 0;
-        int speed = 0;
-
-        for (int j = 0; j < level; j++)
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                int random = Random.Range(0, 4);
-
-                if (random == 0)
-                    life++;
-                else if (random == 1)
-                    attack++;
-                else if (random == 2)
-                    defense++;
-                else
-                    speed++;
-            }
-        }
-
-        CharacterStats.LifeStat = life;
-        CharacterStats.AttackStat = attack;
-        CharacterStats.DefenseStat = defense;
-        CharacterStats.SpeedStat = speed;
-        CharacterStats.ExpNextLevel = CharacterStats.Level * 13;
     }
 }

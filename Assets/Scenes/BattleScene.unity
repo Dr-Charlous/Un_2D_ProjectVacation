@@ -3182,13 +3182,6 @@ MonoBehaviour:
   - {fileID: 47068854}
   _charactersInSpeedOrder: []
   _charactersInOrder: []
-  _iconesTurn:
-  - {fileID: 1354563823}
-  - {fileID: 1461358484}
-  - {fileID: 1994863176}
-  - {fileID: 885654120}
-  - {fileID: 1748579019}
-  _combatText: {fileID: 488529948}
   _data: {fileID: 11400000, guid: ec35378ea14597646b3ff44a8a3c3aad, type: 2}
   _dataKill: {fileID: 11400000, guid: f7af5ca693085d44dbd43903a14c5467, type: 2}
   _buttons:
@@ -3199,19 +3192,29 @@ MonoBehaviour:
   - {fileID: 981775823}
   - {fileID: 562080504}
   _transition: {fileID: 1524478863}
+  _iconesTurn:
+  - {fileID: 1354563823}
+  - {fileID: 1461358484}
+  - {fileID: 1994863176}
+  - {fileID: 885654120}
+  - {fileID: 1748579019}
+  _combatText: {fileID: 488529948}
   _playerAttackDisplay: {fileID: 1656427139}
   _ennemyAttackDisplay: {fileID: 378498330}
   _DefenseDisplay: {fileID: 1596716586}
   _playerAttackText: {fileID: 1621748607}
   _ennemyAttackText: {fileID: 50392389}
-  _timerBetweenActions: 1.5
-  _isBattleFinish: 0
   _AttackButtons:
   - {fileID: 710424314}
   - {fileID: 566600118}
   - {fileID: 963332649}
   - {fileID: 1734592615}
-  _isBattleTestScene: 1
+  _isBattleFinish: 0
+  _timerBetweenActions: 1.5
+  _pointsPerLevels: 5
+  _expPerMob: 5
+  _expMultiplier: 1
+  IsBattleTestScene: 1
 --- !u!4 &1524478862
 Transform:
   m_ObjectHideFlags: 0
@@ -3239,6 +3242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6186d4c7cc2af6940bfd5c80bad2c957, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _battleManager: {fileID: 1524478861}
   _transitionIn: {fileID: 7338908743993552129}
   _transitionOut: {fileID: 7338908743993552130}
   _sceneName: OpenSpaceScene
@@ -4389,6 +4393,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1909053838}
     m_Modifications:
+    - target: {fileID: 672915943410473851, guid: 971311036af213144a8a8020e3ee7ec5, type: 3}
+      propertyPath: CharacterStats
+      value: 
+      objectReference: {fileID: 11400000, guid: ed5cee0605aca0648977f6e0ca28b2df, type: 2}
     - target: {fileID: 4801672919978414110, guid: 971311036af213144a8a8020e3ee7ec5, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 1110
