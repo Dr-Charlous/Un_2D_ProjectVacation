@@ -5,7 +5,13 @@ using UnityEngine;
 public class OpenWolrdManager : MonoBehaviour
 {
     [SerializeField] FileData _data;
-    [SerializeField] GameObject[] _chara;
+    [SerializeField] GameObject _charaParent;
+    [SerializeField] CharacterUi[] _charaUi;
+
+    private void Awake()
+    {
+        _charaUi = _charaParent.GetComponentsInChildren<CharacterUi>();
+    }
 
     void Start()
     {
@@ -15,11 +21,11 @@ public class OpenWolrdManager : MonoBehaviour
         {
             for (int i = 0; i < _data.Characters.Count; i++)
             {
-                for (int j = 0; j < _chara.Length; j++)
+                for (int j = 0; j < _charaUi.Length; j++)
                 {
-                    if (_data.Characters[i] == _chara[j].GetComponent<CharacterUi>().CharacterStats)
+                    if (_data.Characters[i] == _charaUi[j].CharacterStats)
                     {
-                        Destroy(_chara[j]);
+                        Destroy(_charaUi[j].gameObject);
                     }
                 }
             }
@@ -30,17 +36,17 @@ public class OpenWolrdManager : MonoBehaviour
 
     public void SavePositions()
     {
-        for (int i = 0; i < _chara.Length; i++)
+        for (int i = 0; i < _charaUi.Length; i++)
         {
-            _chara[i].GetComponent<CharacterUi>().CharacterStats.CharaPosition = _chara[i].transform.position;
+            _charaUi[i].CharacterStats.CharaPosition = _charaUi[i].transform.position;
         }
     }
 
     public void LoadPositions()
     {
-        for (int i = 0; i < _chara.Length; i++)
+        for (int i = 0; i < _charaUi.Length; i++)
         {
-            _chara[i].transform.position = _chara[i].GetComponent<CharacterUi>().CharacterStats.CharaPosition;
+            _charaUi[i].transform.position = _charaUi[i].CharacterStats.CharaPosition;
         }
     }
 }

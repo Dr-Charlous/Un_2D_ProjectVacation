@@ -12,7 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0afd24a8b9ace6d4483ff6030d90a56d, type: 3}
   m_Name: Punch
   m_EditorClassIdentifier: 
-  TargetAttack: 1
   AttackName: Punch
   AttackText: +2 Damages
+  TargetAttack: 1
+  AbilityType: 0
   AttackDamage: 2
+  HitPourcent: 50
+  HealPoints: 0
+  AttackBoost: 0
+  DefenseBoost: 0
+  SpeedBoost: 0

@@ -16,12 +16,11 @@ MonoBehaviour:
   Name: Slime
   Level: 1
   Exp: 1
-  ExpNextLevel: 13
-  LifeStat: 2
-  AttackStat: 1
-  DefenseStat: 0
-  SpeedStat: 1
-  LifeBoost: 0
+  ExpNextLevel: 24
+  LifeStat: 3
+  AttackStat: 5
+  DefenseStat: 3
+  SpeedStat: 2
   AttackBoost: 0
   DefenseBoost: 0
   SpeedBoost: 0
@@ -31,3 +30,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1ddfc29ed5e0c8b46b3877e17886e45b, type: 2}
   - {fileID: 11400000, guid: 45fa505fde580ca459677d53d9331e8a, type: 2}
   - {fileID: 11400000, guid: a4cceaf628c52d141a6a75e453f6d892, type: 2}
+  _isPressed: 0

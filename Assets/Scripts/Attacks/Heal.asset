@@ -17,8 +17,8 @@ MonoBehaviour:
   TargetAttack: 0
   AbilityType: 1
   AttackDamage: 3
+  HitPourcent: 100
   HealPoints: 3
-  LifeBoost: 0
   AttackBoost: 0
   DefenseBoost: 0
   SpeedBoost: 0

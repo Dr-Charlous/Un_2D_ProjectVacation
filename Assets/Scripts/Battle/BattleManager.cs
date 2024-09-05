@@ -242,20 +242,7 @@ public class BattleManager : MonoBehaviour
 
     void Attack(Character charaAttack, Character charaDefense, ScriptableAttack attack)
     {
-        int attSpeed = charaAttack.CharacterStats.SpeedStat + charaAttack.CharacterStats.SpeedBoost;
-        int defSpeed = charaDefense.CharacterStats.SpeedStat + charaDefense.CharacterStats.SpeedBoost;
-
-        // %de l'arme
-        int hit = 75;
-
-        int precision = 100 - (100 - hit) * (((1 + defSpeed) / (attSpeed - 1)) / 2);
-        //Debug.Log(precision);
-
-        int lifePointsLose = 0;
-        if (Random.Range(0, 101) <= precision)
-            lifePointsLose = attack.Action(charaAttack, charaDefense);
-        else
-            Debug.Log($"{charaAttack.CharacterStats.Name} miss");
+        int lifePointsLose = attack.Action(charaAttack, charaDefense);
 
         Defeat(charaAttack, charaDefense);
         AttackText(lifePointsLose);
@@ -280,7 +267,7 @@ public class BattleManager : MonoBehaviour
             //OutOfBattle(charaDefense);
             ResetBoost(charaAttack);
             ResetBoost(charaDefense);
-            OutOfBattle(null);
+            OutOfBattle(charaDefense);
         }
     }
 
@@ -339,12 +326,11 @@ public class BattleManager : MonoBehaviour
     void Exp(Character charaAttack, Character charaDefense)
     {
         //Exp optain
-        float expGiven = ((_expMultiplier * _expPerMob * charaAttack.CharacterStats.Level) / 5) * ((2 * charaDefense.CharacterStats.Level + 10) / (charaAttack.CharacterStats.Level + charaDefense.CharacterStats.Level + 10)) * 2.5f;
-        //float expGiven = _expPerMob * charaDefense.CharacterStats.Level * _expMultiplier;
-
+        //int expGiven = Mathf.RoundToInt(((_expMultiplier * _expPerMob * charaAttack.CharacterStats.Level) / 5) * ((2 * charaDefense.CharacterStats.Level + 10) / (charaAttack.CharacterStats.Level + charaDefense.CharacterStats.Level + 10)) * 2.5f);
+        int expGiven = Mathf.RoundToInt((_expPerMob * charaDefense.CharacterStats.Level * _expMultiplier) / (charaAttack.CharacterStats.Level - charaDefense.CharacterStats.Level + 10));
         Debug.Log(expGiven);
 
-        int exp = charaAttack.CharacterStats.Exp + Mathf.RoundToInt(expGiven);
+        int exp = charaAttack.CharacterStats.Exp + expGiven;
         _combatText.text = $"{charaAttack.CharacterStats.Name} win the battle ! +{expGiven} Exp -> {exp}/{charaAttack.CharacterStats.ExpNextLevel}\n";
 
         if (exp >= charaAttack.CharacterStats.ExpNextLevel)
@@ -362,7 +348,7 @@ public class BattleManager : MonoBehaviour
 
                 //Level up
                 //charaAttack.CharacterStats.ExpNextLevel = charaDefense.CharacterStats.Level * 15;
-                charaAttack.CharacterStats.ExpNextLevel = Mathf.RoundToInt(Mathf.Pow(Mathf.Log(charaAttack.CharacterStats.Level * 2 + 1), 2) * 100);
+                charaAttack.CharacterStats.ExpNextLevel = Mathf.RoundToInt(Mathf.Pow(Mathf.Log(charaAttack.CharacterStats.Level * 2 + 1), 2) * 20);
             }
 
             charaAttack.CharacterStats.Level += levelUp;

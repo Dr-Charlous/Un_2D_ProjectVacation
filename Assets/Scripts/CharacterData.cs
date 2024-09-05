@@ -84,6 +84,6 @@ public class CharacterData : ScriptableObject
         AttackStat = attack;
         DefenseStat = defense;
         SpeedStat = speed;
-        ExpNextLevel = Mathf.RoundToInt(Mathf.Pow(Mathf.Log(Level * 2 + 1), 2) * 100);
+        ExpNextLevel = Mathf.RoundToInt(Mathf.Pow(Mathf.Log(Level * 2 + 1), 2) * 20);
     }
 }
