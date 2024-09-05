@@ -86,4 +86,42 @@ public class CharacterData : ScriptableObject
         SpeedStat = speed;
         ExpNextLevel = Mathf.RoundToInt(Mathf.Pow(Mathf.Log(Level * 2 + 1), 2) * 20);
     }
+
+    public string ActualiseStats()
+    {
+        string stats = $"--- {Name} ---\n";
+        stats += $"Lvl: {Level} : {Exp}/{ExpNextLevel} Exp\n";
+        stats += $"\n";
+        stats += $"Vitality : {LifeStat}";
+        stats += $"\nAttack   : {AttackStat}";
+
+        if (AttackBoost > 0)
+            stats += $" +{AttackBoost}";
+        else if (AttackBoost < 0)
+            stats += $" {AttackBoost}";
+
+        stats += $"\nDefense  : {DefenseStat}";
+
+        if (DefenseBoost > 0)
+            stats += $" +{DefenseBoost}";
+        else if (DefenseBoost < 0)
+            stats += $" {DefenseBoost}";
+
+        stats += $"\nSpeed    : {SpeedStat}";
+
+        if (SpeedBoost > 0)
+            stats += $" +{SpeedBoost}";
+        else if (SpeedBoost < 0)
+            stats += $" {SpeedBoost}";
+
+        stats += $"\n\n";
+        stats += $"Abilities : \n";
+
+        for (int i = 0; i < CharaAbilities.Length; i++)
+        {
+            stats += $" - {CharaAbilities[i].AttackName}\n";
+        }
+
+        return stats;
+    }
 }
