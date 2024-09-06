@@ -37,6 +37,14 @@ public class ItemScriptable : ScriptableObject
                 EditorGUILayout.LabelField("Speed boost :", GUILayout.MaxWidth(175));
                 itemScript.SpeedBoost = EditorGUILayout.IntField(itemScript.SpeedBoost);
                 EditorGUILayout.EndHorizontal();
+
+                if (itemScript.Type == ItemScriptable.ItemType.Weapon)
+                {
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Hit chance :", GUILayout.MaxWidth(175));
+                    itemScript.HitChance = EditorGUILayout.IntSlider(itemScript.HitChance, 0, 100);
+                    EditorGUILayout.EndHorizontal();
+                }
             }
             else if(itemScript.Type == ItemScriptable.ItemType.Consomable)
             {
@@ -61,6 +69,7 @@ public class ItemScriptable : ScriptableObject
     [HideInInspector] public int AttakBoost;
     [HideInInspector] public int DefenseBoost;
     [HideInInspector] public int SpeedBoost;
+    [HideInInspector] public int HitChance;
     [HideInInspector] public int ValueInInventory;
 
     public string Name;

@@ -31,7 +31,6 @@ public class Character : MonoBehaviour
         LifePoints = CharacterStats.LifeStat;
         ActualiseLifeDisplay();
         StatsDisplay.gameObject.SetActive(false);
-        StatsDisplayText.text = CharacterStats.ActualiseStats();
         NameDisplay.text = $@"{CharacterStats.Name}    Lvl:{CharacterStats.Level}";
         CharacterDisplay.sprite = CharacterStats.CharaSprite;
     }

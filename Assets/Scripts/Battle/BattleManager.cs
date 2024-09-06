@@ -328,7 +328,6 @@ public class BattleManager : MonoBehaviour
         //Exp optain
         //int expGiven = Mathf.RoundToInt(((_expMultiplier * _expPerMob * charaAttack.CharacterStats.Level) / 5) * ((2 * charaDefense.CharacterStats.Level + 10) / (charaAttack.CharacterStats.Level + charaDefense.CharacterStats.Level + 10)) * 2.5f);
         int expGiven = Mathf.RoundToInt((_expPerMob * charaDefense.CharacterStats.Level * _expMultiplier) / (charaAttack.CharacterStats.Level - charaDefense.CharacterStats.Level + 10));
-        Debug.Log(expGiven);
 
         int exp = charaAttack.CharacterStats.Exp + expGiven;
         _combatText.text = $"{charaAttack.CharacterStats.Name} win the battle ! +{expGiven} Exp -> {exp}/{charaAttack.CharacterStats.ExpNextLevel}\n";

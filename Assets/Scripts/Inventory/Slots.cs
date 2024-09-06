@@ -25,30 +25,28 @@ public class Slots : MonoBehaviour, IDropHandler
         {
             GameObject dropped = eventData.pointerDrag;
             Item itemDrag = dropped.GetComponent<Item>();
-            itemDrag.ParentEnd = transform;
 
-            Inventory.InventoryScript.Items[Inventory.ActualItem.ItemScript.ValueInInventory] = null;
-            Inventory.InventoryScript.Items[ValueInArray] = Inventory.ActualItem.ItemScript;
-            Inventory.ActualItem.ItemScript.ValueInInventory = ValueInArray;
+            itemDrag.ParentEnd = transform;
+            itemDrag.transform.parent = itemDrag.ParentEnd;
+
+            if (TypeSlot.ToString() == Inventory.ActualItem.ItemScript.Type.ToString() && TypeSlot != TypeItem.Other && !itemDrag.IsEquip)
+            {
+                Inventory.InventoryScript.Owner.AttackEquip += itemDrag.ItemScript.AttakBoost;
+                Inventory.InventoryScript.Owner.DefenseEquip += itemDrag.ItemScript.DefenseBoost;
+                Inventory.InventoryScript.Owner.SpeedEquip += itemDrag.ItemScript.SpeedBoost;
+                itemDrag.IsEquip = true;
+            }
+            else if(itemDrag.IsEquip)
+            {
+                Inventory.InventoryScript.Owner.AttackEquip -= itemDrag.ItemScript.AttakBoost;
+                Inventory.InventoryScript.Owner.DefenseEquip -= itemDrag.ItemScript.DefenseBoost;
+                Inventory.InventoryScript.Owner.SpeedEquip -= itemDrag.ItemScript.SpeedBoost;
+                itemDrag.IsEquip = false;
+            }
+            Inventory.CharaUi.UpdateStatText();
+
+            Inventory.ActualItem = null;
+            Inventory.SaveInventory();
         }
     }
-
-    //public void Drop()
-    //{
-    //    if (Inventory.InventoryScript.Items[ValueInArray] == null && Inventory.ActualItem != null)
-    //    {
-    //        if (TypeSlot.ToString() == Inventory.ActualItem.ItemScript.Type.ToString() || TypeSlot == TypeItem.Other)
-    //        {
-    //            Inventory.ActualItem.Position = this.transform.position;
-
-    //            Inventory.InventoryScript.Items[Inventory.ActualItem.ItemScript.ValueInInventory] = null;
-    //            Inventory.InventoryScript.Items[ValueInArray] = Inventory.ActualItem.ItemScript;
-
-    //            Inventory.ActualItem.ItemScript.ValueInInventory = ValueInArray;
-    //            //Inventory.ActualItem.Drop();
-    //            Inventory.ActualItem = null;
-    //            Inventory.ActualItem.GetComponent<Image>().raycastTarget = true;
-    //        }
-    //    }
-    //}
 }

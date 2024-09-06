@@ -18,6 +18,12 @@ public class CharacterData : ScriptableObject
     public int DefenseStat;
     public int SpeedStat;
 
+    [Header("Stats equipement :")]
+    public int LifeEquip;
+    public int AttackEquip;
+    public int DefenseEquip;
+    public int SpeedEquip;
+
     [Header("Stats bonus :")]
     public int AttackBoost;
     public int DefenseBoost;
@@ -93,7 +99,18 @@ public class CharacterData : ScriptableObject
         stats += $"Lvl: {Level} : {Exp}/{ExpNextLevel} Exp\n";
         stats += $"\n";
         stats += $"Vitality : {LifeStat}";
+
+        if (LifeEquip > 0)
+            stats += $" +{LifeEquip}";
+        else if (LifeEquip < 0)
+            stats += $" {LifeEquip}";
+
         stats += $"\nAttack   : {AttackStat}";
+
+        if (AttackEquip > 0)
+            stats += $" +{AttackEquip}";
+        else if (AttackEquip < 0)
+            stats += $" {AttackEquip}";
 
         if (AttackBoost > 0)
             stats += $" +{AttackBoost}";
@@ -102,12 +119,22 @@ public class CharacterData : ScriptableObject
 
         stats += $"\nDefense  : {DefenseStat}";
 
+        if (DefenseEquip > 0)
+            stats += $" +{DefenseEquip}";
+        else if (DefenseEquip < 0)
+            stats += $" {DefenseEquip}";
+
         if (DefenseBoost > 0)
             stats += $" +{DefenseBoost}";
         else if (DefenseBoost < 0)
             stats += $" {DefenseBoost}";
 
         stats += $"\nSpeed    : {SpeedStat}";
+
+        if (SpeedEquip > 0)
+            stats += $" +{SpeedEquip}";
+        else if (SpeedEquip < 0)
+            stats += $" {SpeedEquip}";
 
         if (SpeedBoost > 0)
             stats += $" +{SpeedBoost}";

@@ -1071,8 +1071,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InventoryScript: {fileID: 11400000, guid: dc28c1f3e69020f45a1dac43450cfbc6, type: 2}
   ItemPrefab: {fileID: 951149217808270229, guid: f7c04b3dca697b5408cdb82cacf64b00, type: 3}
+  CharaUi: {fileID: 2043379885}
   ActualItem: {fileID: 0}
-  Slots:
+  SlotsInventory:
   - {fileID: 770572061}
   - {fileID: 1441422846}
   - {fileID: 1526722576}
@@ -4207,6 +4208,10 @@ MonoBehaviour:
   - {fileID: 2047285526}
   - {fileID: 1638161614}
   - {fileID: 298349882}
+  _objOnButtons:
+  - {fileID: 571441099}
+  - {fileID: 448695118}
+  - {fileID: 2032896080}
 --- !u!224 &1526722574 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6760640614752727910, guid: 2a925069513a9b542bdcb13c481cc26e, type: 3}
@@ -7442,6 +7447,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2032896080}
   m_CullTransparentMesh: 1
+--- !u!114 &2043379885 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9080376720276962708, guid: b4cbc04588e89734c816350fcd4940d9, type: 3}
+  m_PrefabInstance: {fileID: 4606115483031445575}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00df81cdaf4e3be449be88b889f6455d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2047285522
 GameObject:
   m_ObjectHideFlags: 0
@@ -8054,6 +8070,6 @@ SceneRoots:
   - {fileID: 40898380}
   - {fileID: 1366172059}
   - {fileID: 887759682}
-  - {fileID: 1524478862}
   - {fileID: 1573038923}
+  - {fileID: 1524478862}
   - {fileID: 24411514}

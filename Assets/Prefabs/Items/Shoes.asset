@@ -10,12 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e01f9ce987cc2a418289ec5736d1d38, type: 3}
-  m_Name: ItemTest
+  m_Name: Shoes
   m_EditorClassIdentifier: 
-  Type: 0
-  AttakBoost: 1000
-  DefenseBoost: 1000
-  SpeedBoost: 1000
-  Name: Item Test
-  Description: ???
-  ItemSprite: {fileID: 21300000, guid: aab29211f05f42a4988cfd9f9edaa165, type: 3}
+  Type: 3
+  AttakBoost: 0
+  DefenseBoost: 1
+  SpeedBoost: 1
+  HitChance: 0
+  ValueInInventory: 23
+  Name: Shoes
+  Description: Can be put on the foots
+  ItemSprite: {fileID: 21300000, guid: e6b51df9a1cb79642bb4692aab0562e5, type: 3}

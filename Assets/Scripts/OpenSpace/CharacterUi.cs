@@ -19,4 +19,9 @@ public class CharacterUi : MonoBehaviour
         if (_textStats != null)
             _textStats.text = CharacterStats.ActualiseStats();
     }
+
+    public void UpdateStatText()
+    {
+        _textStats.text = CharacterStats.ActualiseStats();
+    }
 }

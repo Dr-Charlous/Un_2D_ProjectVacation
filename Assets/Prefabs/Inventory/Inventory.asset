@@ -12,9 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f1e152ee9accc24eb46fe050eb9f9db, type: 3}
   m_Name: Inventory
   m_EditorClassIdentifier: 
-  Owner: Player
+  Owner: {fileID: 11400000, guid: 3706be3309a48bf49a0c481c3010a4d5, type: 2}
   Items:
-  - {fileID: 11400000, guid: 0b843c1df1df50c488a99092a7bdce8a, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: fe74e5c3fac90514c9714740ab4bec53, type: 2}
+  - {fileID: 11400000, guid: 07c80480790db434685f0b84bcfe1696, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: fe74e5c3fac90514c9714740ab4bec53, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 3ee7ed5c6c040114891c4774677b4634, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -23,20 +34,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: fffb1190c74476645ba2ee535f416a6a, type: 2}
+  - {fileID: 11400000, guid: 1b7627931108f254185c68205a9418a5, type: 2}
+  - {fileID: 11400000, guid: 69f4186308e106044baf7173c098fe5d, type: 2}
+  - {fileID: 11400000, guid: 3ee7ed5c6c040114891c4774677b4634, type: 2}
   - {fileID: 0}
   - {fileID: 0}

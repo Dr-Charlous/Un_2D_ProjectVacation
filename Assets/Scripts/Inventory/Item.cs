@@ -10,8 +10,9 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public Inventory Inventory;
     public Image ImageItem;
     public Transform ParentEnd;
+    public bool IsEquip = false;
 
-    private void Start()
+    public void Start()
     {
         ImageItem.sprite = ItemScript.ItemSprite;
     }
@@ -35,7 +36,9 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     {
         transform.SetParent(ParentEnd);
         ImageItem.raycastTarget = true;
-
         Inventory.ActualItem = null;
+
+        if (transform.parent != ParentEnd)
+            Inventory.SaveInventory();
     }
 }

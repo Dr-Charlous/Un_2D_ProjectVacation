@@ -88,9 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8058e7d99e8bd3f43968e2bc8b12d2ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemScript: {fileID: 11400000, guid: 0b843c1df1df50c488a99092a7bdce8a, type: 2}
+  ItemScript: {fileID: 0}
   Inventory: {fileID: 0}
   ImageItem: {fileID: 1639876028795491351}
-  ItemObj: {fileID: 951149217808270229}
-  Position: {x: 985, y: 720}
   ParentEnd: {fileID: 0}

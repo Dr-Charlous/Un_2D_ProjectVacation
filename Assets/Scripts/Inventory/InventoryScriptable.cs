@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Inventory", menuName = "Scriptable/Inventory")]
 public class InventoryScriptable : ScriptableObject
 {
-    public string Owner;
+    public CharacterData Owner;
 
     public ItemScriptable[] Items = new ItemScriptable[26];
 }

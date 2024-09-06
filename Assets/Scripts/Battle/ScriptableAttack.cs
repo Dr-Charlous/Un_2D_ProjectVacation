@@ -101,8 +101,8 @@ public class ScriptableAttack : ScriptableObject
     {
         if (AbilityType == Ability.Attack)
         {
-            int attSpeed = charaAttack.CharacterStats.SpeedStat + charaAttack.CharacterStats.SpeedBoost;
-            int defSpeed = charaDefense.CharacterStats.SpeedStat + charaDefense.CharacterStats.SpeedBoost;
+            int attSpeed = charaAttack.CharacterStats.SpeedStat + charaAttack.CharacterStats.SpeedEquip + charaAttack.CharacterStats.SpeedBoost;
+            int defSpeed = charaDefense.CharacterStats.SpeedStat + charaDefense.CharacterStats.SpeedEquip + charaDefense.CharacterStats.SpeedBoost;
 
             // %de l'arme
             int precision = 0;
@@ -134,8 +134,8 @@ public class ScriptableAttack : ScriptableObject
 
     public int Attack(Character charaAttack, Character charaDefense)
     {
-        int damage = charaAttack.CharacterStats.AttackStat + AttackDamage + charaAttack.CharacterStats.AttackBoost;
-        int defense = charaDefense.CharacterStats.DefenseStat + charaDefense.CharacterStats.DefenseBoost;
+        int damage = charaAttack.CharacterStats.AttackStat + charaAttack.CharacterStats.AttackEquip + AttackDamage + charaAttack.CharacterStats.AttackBoost;
+        int defense = charaDefense.CharacterStats.DefenseStat + charaDefense.CharacterStats.DefenseEquip + charaDefense.CharacterStats.DefenseBoost;
         int damageTook = damage / 2 - defense / 4;
 
         if (damageTook <= 0)
